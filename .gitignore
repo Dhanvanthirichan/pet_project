@@ -1,0 +1,96 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotNetGitHubActions
+!/.github/workflows/
+*.pdb
+
+# Rider
+.idea/
+*.sln.iml
+*.dotCover
+*.dotMemory
+*.dotTrace
+*.run.xml
+.idea/
+.idea_modules/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/libraries
+.idea/modules.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/vcs.xml
+.idea/gradle.xml
+.idea/assetWizard.xml
+.idea/study.xml
+.idea/markdown-navigator.xml
+.idea/*.iws
+
+# Rider 2018.3+
+.idea/.idea.contentModel.xml
+.idea/.idea.contentModel.json
+
+# Rider 2019.1+
+.idea/.ideaFramework.iml
+.idea/.rider.xml
+.idea/external_build.xml
+
+# Rider 2019.2+
+.idea/.riderlabs.xml
+.idea/.gitignore.lax
+
+# User-specific files
+.idea/gradle.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
+
+# Mac OS X
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+# created by macOS Finder
+*.swp
+
+# JetBrains
+.idea/
+
+# Visual Studio 2019
+.vscode/
+.vs/
