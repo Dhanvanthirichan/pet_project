@@ -14,6 +14,20 @@ while(true){
     Console.WriteLine("3. Rest");
     Console.WriteLine("4. Exit");
     string  choice = Console.ReadLine() ?? "";
+    if (string.IsNullOrWhiteSpace(choice))
+    {
+        Console.WriteLine("Pet is resting as you have not selected any option");
+        pet.rest();
+        continue;
+    }
+    if (int.TryParse(choice, out _) || Convert.ToInt32(choice) < 1 || Convert.ToInt32(choice) > 4) 
+    {
+        Console.WriteLine("Invalid choice");
+        Console.WriteLine("Pet is resting as you have selected invalid option");
+        pet.rest();
+        continue;
+    }
+
 
     int choice_int = Convert.ToInt32(choice);
 
@@ -67,7 +81,7 @@ class Pet
     public void rest(){
         health += 10;
         happiness -= 5;
-        Console.WriteLine("Your pet is resting" + name);
+        Console.WriteLine("Your pet is resting " + name);
         display_info();
         check_status();
         time_pass();
@@ -86,6 +100,7 @@ class Pet
         }
         if (happiness <= 0 || hunger >= 100 || health <= 0){
             Console.WriteLine("Your pet has died");
+            Console.WriteLine("Goodbye");
             Environment.Exit(0);
         }
     }
