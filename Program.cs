@@ -20,7 +20,7 @@ while(true){
         pet.rest();
         continue;
     }
-    if (int.TryParse(choice, out _) || Convert.ToInt32(choice) < 1 || Convert.ToInt32(choice) > 4) 
+    if ( (int.TryParse(choice, out _) || Convert.ToInt32(choice) < 1 || Convert.ToInt32(choice) > 4) != true)  
     {
         Console.WriteLine("Invalid choice");
         Console.WriteLine("Pet is resting as you have selected invalid option");
@@ -56,13 +56,20 @@ class Pet
 {
     public string name = "";
     public string type = "";
-    public int hunger = 50;
-    public int health = 50;
-    public int happiness = 30;
+    public int hunger = 0;
+    public int health = 100;
+    public int happiness = 100;
+
+    
+    void update_status(int hunger=0, int health=0, int happiness=0){
+        this.hunger = hunger >= 0 ? (hunger <= 100 ? hunger : 100) : 0;
+        this.health = health >= 0 ? (health <= 100 ? health : 100) : 0;
+        this.happiness = happiness >= 0 ? (happiness <= 100 ? happiness : 100) : 0;
+    }
 
     public void feed(){
-        hunger -= 10;
-        health += 5;
+        
+        update_status(hunger: hunger - 10, health: health + 5, happiness: happiness) ;
         Console.WriteLine("Your Feeding " + name);
         display_info();
         check_status();
@@ -70,17 +77,21 @@ class Pet
 
     }
     public void play(){
-        happiness += 10;
-        hunger += 5;
-        Console.WriteLine("Your playing with " + name);
+        if (check_neglect()){
+            neglect();
+            Console.WriteLine("Your  cant play with " + name + " as he is not happy with you. Please feed the good boy first.");
+        }
+        else{
+            Console.WriteLine("Your playing with " + name);
+            update_status(hunger: hunger + 5, health: health, happiness: happiness + 10);
+
+        }
         display_info();
         check_status();
         time_pass();
-
     }
     public void rest(){
-        health += 10;
-        happiness -= 5;
+        update_status(hunger: hunger, health: health +10, happiness: happiness - 5);
         Console.WriteLine("Your pet is resting " + name);
         display_info();
         check_status();
@@ -106,9 +117,18 @@ class Pet
     }
 
     public void time_pass(){
-        hunger += 10;
-        happiness -= 5;
+        update_status(hunger: hunger+10, health: health, happiness: happiness - 5);
         check_status();
+    }
+
+    public bool check_neglect(){
+        if (hunger >=50 || happiness <= 40){
+            return true;
+        }
+        return false;
+    }
+    public void neglect(){
+        update_status(hunger: hunger , health: health - 10, happiness: happiness );
     }
 
 }
