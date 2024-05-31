@@ -6,7 +6,6 @@ The Pet supports following actions:
 - Feed
 - Play
 - Rest
-- Feed
 
 Performing any action results in chaging the pet's stats and the pet's status is displayed after each action.
 When performing an each hour is passed.
