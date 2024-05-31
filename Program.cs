@@ -2,17 +2,64 @@
 Pet pet = new();
 
 Console.WriteLine("Welocme to pet app ");
+pet.type = string.Empty;
+while(string.IsNullOrWhiteSpace(pet.type)){
+Console.WriteLine("Choose the type of pet you want to have");
+Console.WriteLine("1. Dog");
+Console.WriteLine("2. Cat");
+Console.WriteLine("3. Tiger");
+Console.WriteLine("4. Alligator");
+Console.WriteLine("5. Blue Whale");
+string pet_choice = Console.ReadLine() ?? "";
+if (string.IsNullOrWhiteSpace(pet_choice))
+{
+    Console.WriteLine("You have not selected any pet type");
+    continue;
+}
+if ( (int.TryParse(pet_choice, out _) || Convert.ToInt32(pet_choice) < 1 || Convert.ToInt32(pet_choice) > 6) != true)  
+{
+    Console.WriteLine("Invalid choice");
+    Console.WriteLine("You have selected invalid pet type");
+    continue;
+}
+int pet_choice_int = Convert.ToInt32(pet_choice);
+switch (pet_choice_int){
+    case 1:
+        pet.type = "Dog";
+        break;
+    case 2:
+        pet.type = "Cat";
+        break;
+    case 3:
+        pet.type = "Tiger";
+        break;
+    case 4:
+        pet.type = "Alligator";
+        break;
+    case 5:
+        pet.type = "Blue Whale";
+        break;
+    default:
+        Console.WriteLine("Invalid choice");
+        break;
+}
+}
 Console.WriteLine("Enter the name of the pet");
 pet.name = Console.ReadLine() ?? "";
-Console.WriteLine("Enter the type of the pet");
-pet.type = Console.ReadLine() ?? "" ;
+if (string.IsNullOrWhiteSpace(pet.name))
+{
+    Console.WriteLine("You have not entered any name for the pet defaulting to progrmmer's choice of his pet name");
+    pet.name = "Trevor";
+}
+
 Console.WriteLine("Welocme " + pet.name + "the" + pet.type + "!");
 while(true){
     Console.WriteLine("What you want to do with yopur pet?");
     Console.WriteLine("1. Feed");
     Console.WriteLine("2. Play");
     Console.WriteLine("3. Rest");
-    Console.WriteLine("4. Exit");
+    Console.WriteLine("4. Dipaly pet stats");
+    Console.WriteLine("5. Exit");
     string  choice = Console.ReadLine() ?? "";
     if (string.IsNullOrWhiteSpace(choice))
     {
@@ -43,6 +90,9 @@ while(true){
             pet.rest();
             break;
         case 4:
+            pet.display_info();
+            break;
+        case 5:
             Console.WriteLine("Goodbye");
             return;
         default:
@@ -56,22 +106,26 @@ class Pet
 {
     public string name = "";
     public string type = "";
-    public int hunger = 0;
-    public int health = 100;
-    public int happiness = 100;
+    public double hunger = 0;
+    public double health = 10;
+    public double happiness = 10;
 
     
-    void update_status(int hunger=0, int health=0, int happiness=0){
-        this.hunger = hunger >= 0 ? (hunger <= 100 ? hunger : 100) : 0;
-        this.health = health >= 0 ? (health <= 100 ? health : 100) : 0;
-        this.happiness = happiness >= 0 ? (happiness <= 100 ? happiness : 100) : 0;
+    void update_status(double hunger=0, double health=0, double happiness=0){
+        this.hunger = Math.Clamp(hunger, 0, 10);
+        this.health = Math.Clamp(health, 0, 10);
+        this.happiness = Math.Clamp(happiness, 0, 10);
+        this.hunger = Math.Round(this.hunger, 1);
+        this.health = Math.Round(this.health, 1);
+        this.happiness = Math.Round(this.happiness, 1);
+
     }
 
     public void feed(){
         
-        update_status(hunger: hunger - 10, health: health + 5, happiness: happiness) ;
+        update_status(hunger: hunger - 1, health: health + 0.5, happiness: happiness + 0.5) ;
         Console.WriteLine("Your Feeding " + name);
-        display_info();
+        Console.WriteLine("Your pet is less hungry " + hunger + " and more healthy " + health + " and happy " + happiness);
         check_status();
         time_pass();
 
@@ -83,17 +137,17 @@ class Pet
         }
         else{
             Console.WriteLine("Your playing with " + name);
-            update_status(hunger: hunger + 5, health: health, happiness: happiness + 10);
+            update_status(hunger: hunger + 0.5, health: health, happiness: happiness + 1);
+            Console.WriteLine("Your pet is more happy " + happiness + " and hungry " + hunger);
 
         }
-        display_info();
         check_status();
         time_pass();
     }
     public void rest(){
-        update_status(hunger: hunger, health: health +10, happiness: happiness - 5);
+        update_status(hunger: hunger, health: health +1, happiness: happiness - 0.5);
         Console.WriteLine("Your pet is resting " + name);
-        display_info();
+        Console.WriteLine("Your pet is more he6althy " + health + " and less happy " + happiness);
         check_status();
         time_pass();
     }
@@ -106,10 +160,10 @@ class Pet
         }
 
     public void check_status(){
-        if (happiness <= 20 || hunger >= 70 || health <= 20){
+        if (happiness <= 2 || hunger >= 7 || health <= 2){
             Console.WriteLine("Your pet is not doing well");
         }
-        if (happiness <= 0 || hunger >= 100 || health <= 0){
+        if (happiness <= 0 || hunger >= 10 || health <= 0){
             Console.WriteLine("Your pet has died");
             Console.WriteLine("Goodbye");
             Environment.Exit(0);
@@ -117,18 +171,20 @@ class Pet
     }
 
     public void time_pass(){
-        update_status(hunger: hunger+10, health: health, happiness: happiness - 5);
+        Console.WriteLine("Time is passing");
+        update_status(hunger: hunger+0.7, health: health, happiness: happiness - 0.5);
+        Console.WriteLine("Your pet is getting hungry " +hunger+  " and less happy " + happiness);
         check_status();
     }
 
     public bool check_neglect(){
-        if (hunger >=50 || happiness <= 40){
+        if (hunger >=5 || happiness <= 4){
             return true;
         }
         return false;
     }
     public void neglect(){
-        update_status(hunger: hunger , health: health - 10, happiness: happiness );
+        update_status(hunger: hunger , health: health - 1, happiness: happiness );
     }
 
 }
